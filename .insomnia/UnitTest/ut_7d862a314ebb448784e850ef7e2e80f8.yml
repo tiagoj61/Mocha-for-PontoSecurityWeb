@@ -1,22 +1,28 @@
 _id: ut_7d862a314ebb448784e850ef7e2e80f8
 type: UnitTest
 parentId: uts_4f588ad8da814a31967c86be9daeb155
-modified: 1651447912059
+modified: 1651448456030
 created: 1651436129461
 requestId: req_4cd3614688b54e17a234214f606e3230
 name: Returns 200
 code: |+
   const response= await insomnia.send();
 
-  expect(response.status).to.be.oneOf([200,401]);
+  expect(response.status).to.be.oneOf([200,202,403,409]);
 
   let body =JSON.parse(response.data)
   switch(response.status){
   	case 200:
-  		expect(body).to.have.lengthOf.at.most(100);
+  		expect(body).to.NaN();
   		break;
-  	case 401:
-  		expect(body).to.have.property('mensagem');
+  	case 202:
+  		expect(body).to.be.NaN();
+  		break;
+  	case 403:
+  		expect(body).to.be('CodeErro');
+  		break;
+  	case 409:
+  		expect(body).to.be.NaN();
   		break;
   }
 
